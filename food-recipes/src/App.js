@@ -1,5 +1,4 @@
 import { Stack } from '@mui/material';
-import './App.css';
 import Home from './routers/Home';
 
 
