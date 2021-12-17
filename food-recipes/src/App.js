@@ -1,14 +1,18 @@
-import { Stack } from '@mui/material';
+import React from "react";
 import Home from './routers/Home';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import PostPage from "./routers/PostPage";
 
 
 function App() {
+  
   return (
-    <Stack spacing={2} direction="row">
-      <div>
-        <Home/>
-      </div>
-    </Stack>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" exact element={<Home />} />
+        <Route path="/PostPage" element={<PostPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
