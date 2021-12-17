@@ -1,6 +1,9 @@
-import React from "react";
-import Pagination from '@mui/material/Pagination';
+import React, {useState, useEffect} from "react";
 import styled from 'styled-components';
+import PrimarySearchAppBar from '../Components/Navbar/TopNavbar'
+import Post from "./Post";
+import Pagination from "./Pagination";
+import axios from 'axios';
 
 const NameDiv = styled.div`
     margin-top: 83px;
@@ -11,26 +14,36 @@ const NameDiv = styled.div`
     margin-bottom: 57px;
     font-size: 40px;
     font-family: Roboto;
-
 `;
 
-const PageDiv = styled.div`
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    justify-content: center;
-`;
+function Home() {
 
-const Home = () => {
+    const [post, setPost] = useState([]);
+	const [currentPage, setCurrentPage] = useState(1); 
+	const [postPerPage] = useState(9); 
+
+  	useEffect(() => {
+    		const fetchPost = async () => {
+      		const res = await axios.get("https://jsonplaceholder.typicode.com/posts");
+      		setPost(res.data);
+    	};
+
+    	fetchPost();
+    }, []);
+
+    const indexOfLastPost = currentPage * postPerPage;
+    const indexOfFirstPost = indexOfLastPost - postPerPage;
+    const currentPost = post.slice(indexOfFirstPost, indexOfLastPost);
+
+    const paginate = pageNumber => setCurrentPage(pageNumber);
+
     return (
-        <>
+        <div className="container mt-5">
+            <div><PrimarySearchAppBar /></div>
             <NameDiv>오늘의 메뉴</NameDiv>
-            <PageDiv>
-                <Pagination count={10} variant="outlined"/>
-            </PageDiv>
-        </>
+            <Post post={currentPost} />
+            <Pagination postPerPage={postPerPage} totalPost={post.length} paginate={paginate} />
+        </div>
     )
 }
 
