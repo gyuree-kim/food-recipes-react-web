@@ -1,5 +1,5 @@
 import React from "react";
-import Home from './routers/Home';
+import Home from './routers/MainPage';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PostPage from "./routers/PostPage";
 
