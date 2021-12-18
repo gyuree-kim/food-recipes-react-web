@@ -13,6 +13,8 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.24.0",
     "firebase": "^9.4.1",
+    "package-lock.json": "^1.0.0",
+    "package.json": "^2.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-js-pagination": "^3.0.3",
@@ -29,7 +31,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "firebase": "firebase --version"
   },
   "eslintConfig": {
     "extends": [
