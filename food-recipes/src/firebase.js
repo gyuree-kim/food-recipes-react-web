@@ -20,9 +20,16 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore();
 
-export async function getUser() {
+export async function getUsers() {
     const userId = collection(db, 'users');
     const userSnapshot = await getDocs(userId);
     const userList = userSnapshot.docs.map(doc => doc.data());
     return userList;
+}
+
+export async function getRecipes() {
+  const recipeCollection = collection(db, 'post');
+  const recipesSnapshot = await getDocs(recipeCollection);
+  const recipes = recipesSnapshot.docs.map(doc => doc.data());
+  return recipes
 }

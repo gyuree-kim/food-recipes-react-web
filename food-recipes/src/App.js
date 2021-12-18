@@ -1,6 +1,5 @@
 import React from "react";
-import Home from "./router/Home_"
-import Post from "./router/Post_"
+import Home from "./router/Home"
 import Detail from "./router/RecipeDetail"
 import {
   BrowserRouter as Router,
@@ -16,11 +15,10 @@ function App() {
   return (
     <Router>
       <TopNavbar />
-      <Link to="/detail/30">Declaritive Routing</Link>
+      {/* routing destinations */}
       <Routes>
-        <Route exact path="/" element={<Home/>}/>
-        <Route path={'/detail/:detailId'} element={<Detail/>}/>
-        <Route path="/post" element={<Post/>}/>
+        <Route exact path="/" element={<Home />}/>
+        <Route path={'/detail/:detailId'} element={<Detail />}/>
       </Routes>
     </Router>
   );
