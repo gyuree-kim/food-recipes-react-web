@@ -1,53 +1,30 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
+import React, {useState} from 'react';
 import TextField from '@mui/material/TextField';
 
-export default function InputTextField() {
-  const [value, setValue] = React.useState('Controlled');
+function InputTextField() {
 
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
+    const [ContentValue, setContentValue] = useState(""); 
+    const onContentChange = (event) => { 
+      setContentValue(event.currentTarget.value); 
+    }; 
+    console.log(ContentValue); 
 
-  return (
-    <Box
-      component="form"
-      sx={{
-        '& .MuiTextField-root': { m: 1, width: '50ch' },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <div>
-        <TextField
-          id="outlined-multiline-static"
-          label="Title"
-          multiline
-          maxRows={4}
-          defaultValue=""
-        />
-        <TextField
-          id="outlined-multiline-static"
-          label="Ingredients"
-          multiline
-          rows={4}
-          defaultValue=""
-        />
-        <TextField
-          id="outlined-multiline-static"
-          label="Steps"
-          multiline
-          rows={4}
-          defaultValue=""
-        />
-        <TextField
-          id="outlined-multiline-static"
-          label="Tips"
-          multiline
-          rows={4}
-          defaultValue=""
-        />
-      </div>
-    </Box>
-  );
-}
+    return ( 
+      <div> 
+        <form onSubmit> 
+          <div> 
+          <TextField
+            id="outlined-multiline-static"
+            label="내용"
+            multiline
+            maxRows={4}
+            defaultValue=""
+          />
+          </div> 
+          <button onClick>작성</button> 
+        </form> 
+      </div> 
+    ); 
+  } 
+  
+  export default InputTextField;
