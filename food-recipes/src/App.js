@@ -3,7 +3,9 @@ import React from "react";
 function App() {
   
   return (
-    <div>navigation</div>
+    <div className="App">
+      navigation
+    </div>
   );
 }
 
