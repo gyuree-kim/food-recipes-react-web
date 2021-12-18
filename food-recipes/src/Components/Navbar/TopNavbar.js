@@ -62,7 +62,6 @@ export default function PrimarySearchAppBar() {
   function PostClick() {
     navigate("/Post");
   }
-  //move to otherPage
 
   return (
     <Box sx={{ flexGrow: 1 }}>
