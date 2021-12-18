@@ -1,23 +1,18 @@
-import React, { useState, useEffect } from "react"
-import { getUser } from './firebase'
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./router/Home_"
+import Post from "./router/Post_"
 
 function App() {
-  const [userId, setUserId] = useState("")
-
-  useEffect(() => {
-    async function getUserId() {
-      const userList = await getUser();
-      setUserId(userList[0].userId)
-    }
-    
-    getUserId();
-
-    return;
-  }, [setUserId])
 
   return (
     <div className="App">
-          {userId}
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" exact element={<Home />} />
+              <Route path="/Post" element={<Post />} />
+            </Routes>
+          </BrowserRouter>
     </div>
   );
 }
