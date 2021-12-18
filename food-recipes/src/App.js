@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react"
+import { getUser } from './firebase'
 
 function App() {
+  const [userId, setUserId] = useState("")
+
+  useEffect(() => {
+    async function getUserId() {
+      const userList = await getUser();
+      setUserId(userList[0].userId)
+    }
+    
+    getUserId();
+
+    return;
+  }, [setUserId])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+          {userId}
     </div>
   );
 }
