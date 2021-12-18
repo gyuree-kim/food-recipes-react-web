@@ -11,11 +11,12 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function BasicStack(props) {
-    console.log(props)
   return (
     <div>
       <Stack spacing={2}>
-        <Item>{props.Items[0]}</Item>
+        {props.Items.map((item) => (
+                <Item>{item}</Item>
+            ))}
       </Stack>
     </div>
   );
