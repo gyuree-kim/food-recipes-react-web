@@ -4,15 +4,14 @@ import Home from "./router/Home_"
 import Post from "./router/Post_"
 
 function App() {
-
   return (
     <div className="App">
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" exact element={<Home />} />
-              <Route path="/Post" element={<Post />} />
-            </Routes>
-          </BrowserRouter>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" exact element={<Home />} />
+          <Route path="/Post" element={<Post />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
