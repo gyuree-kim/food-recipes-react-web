@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./router/Home_"
-import Post from "./router/Post_"
+import Post from "./router/Post"
 
 function App() {
   return (
