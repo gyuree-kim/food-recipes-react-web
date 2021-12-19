@@ -10,9 +10,8 @@ function InputTextField() {
     console.log(ContentValue); 
 
     return ( 
-      <div> 
-        <form onSubmit> 
-          <div> 
+      <div>  
+        
           <TextField
             id="outlined-multiline-static"
             label="내용"
@@ -20,9 +19,7 @@ function InputTextField() {
             maxRows={4}
             defaultValue=""
           />
-          </div> 
-          <button onClick>작성</button> 
-        </form> 
+
       </div> 
     ); 
   } 
