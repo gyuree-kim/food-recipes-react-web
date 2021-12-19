@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { getRecipes } from "../firebase"
 import PrimarySearchAppBar from "../Components/Navbar/TopNavbar";
 import StandardImageList  from "../Components/RecipeImage/RecipeImage"
-import { ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
+import { ImageList, ImageListItem, ImageListItemBar, Box } from '@mui/material';
 import { Link } from "react-router-dom"
 import BasicStack from "../Components/Stack"
 import BasicTextFields from "../Components/CommentTextBox"
@@ -39,15 +39,19 @@ const FoodDetail = () => {
 
     return (
             <div>
-                <ImageList sx={{flexGrow: 1, paddingLeft: 55, paddingRight: 55}} cols={1} gap={20}>
-                    {postId && postId.postContent && postId.postContent.map((item, index) => (
-                        <DetailRecipeItem
-                            imageUrl={`${postId.fileUrl[index]}`}
-                            title = {postId.postName}
-                            contents={item}
-                        />
-                    ))}
-                </ImageList>
+                <Box
+                    sx={{
+                        justifyContent: "center",
+                        alignItems: "center",
+                        display: "flex"
+                    }}
+                >
+                    {postId && <DetailRecipeItem
+                        imageUrl={postId.fileUrl[0]}
+                        title={postId.postName}
+                        contents={postId.postContent}
+                    />}
+                </Box>
                 <h2>재료</h2>
 
                 <BasicStack Items={postId.postIngredient}></BasicStack>
@@ -56,11 +60,11 @@ const FoodDetail = () => {
                 <ImageList sx={{flexGrow: 1, paddingLeft: 50, paddingRight: 50}} cols={1} gap={20}>
                     {postId && postId.postRecipe && postId.postRecipe.map((item, index) => (
                         <DetailRecipeItem
-                            imageUrl={`${item.fileUrl[index + 1]}`}
-                            title = {postId.postName}
-                            contents={item.postRecipe[index]}
-                        />
-                    ))}
+                            imageUrl={postId.fileUrl[index + 1]}
+                            title = {item}
+                            contents={""}
+                        />))
+                    }
                 </ImageList>
                 <h2>댓글란</h2>
                 <BasicTextFields></BasicTextFields>
