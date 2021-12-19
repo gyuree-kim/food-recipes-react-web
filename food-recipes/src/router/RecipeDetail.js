@@ -11,6 +11,7 @@ import BasicTextFields from "../Components/CommentTextBox"
 import InputTextField from "../Components/InputTextField"
 import { getDatabase, ref, set } from "firebase/database";
 import { doc, updateDoc } from "firebase/firestore";
+import { submitComment } from '../firebase';
 import "../App.css"
 
 const FoodDetail = () => {
@@ -22,16 +23,8 @@ const FoodDetail = () => {
     const [postId, setPostId] = useState("")
     const [comment, setComment] = useState("");
 
-    const database = getDatabase();
     const onCommentChange = (event) => {
         setComment(event.target.value);
-    };
-    const onSubmitComment = () => {
-        const reference = doc(database, "post", postId);
-
-        // await updateDoc(reference, {
-        //   comment: comment
-        // });
     };
 
     useEffect(() => {
@@ -92,7 +85,7 @@ const FoodDetail = () => {
                 />
                 <Button 
                     variant="contained"
-                    onClick={onSubmitComment}
+                    // onClick={(submitComment(postId, comment))}
                 >등록</Button>
                 <BasicTextFields></BasicTextFields>
                 {postId && postId.comments.map((comments, index) => (
