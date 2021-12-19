@@ -1,28 +1,20 @@
-import React, {useState} from 'react';
+import React from 'react';
 import TextField from '@mui/material/TextField';
 
 function InputTextField() {
 
-    const [ContentValue, setContentValue] = useState(""); 
-    const onContentChange = (event) => { 
-      setContentValue(event.currentTarget.value); 
-    }; 
-    console.log(ContentValue); 
-
     return ( 
       <div> 
-        <form onSubmit> 
           <div> 
           <TextField
-            id="outlined-multiline-static"
-            label="내용"
+            id="outlined-required"
             multiline
             maxRows={4}
             defaultValue=""
+            size='small'
+            fullWidth
           />
-          </div> 
-          <button onClick>작성</button> 
-        </form> 
+          </div>
       </div> 
     ); 
   } 
