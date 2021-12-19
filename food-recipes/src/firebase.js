@@ -17,7 +17,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const firebase = initializeApp(firebaseConfig);
 const db = getFirestore();
 
 export async function getUsers() {
@@ -40,3 +40,17 @@ export async function getPost() {
   const recipes = recipesSnapshot.docs.map(doc => doc.data());
   return recipes
 }
+
+export const submitComment = (postId, comment) => {
+  const ref = collection('post').doc({postId})
+
+  return ref.update({
+      comment: comment
+  })
+  .then(() => {
+      console.log("Document successfully updated!");
+  })
+  .catch((error) => {
+      console.error("Error updating document: ", error);
+  });
+};
