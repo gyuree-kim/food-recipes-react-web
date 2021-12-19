@@ -1,0 +1,6 @@
+.div_middle {
+    width: 200px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
