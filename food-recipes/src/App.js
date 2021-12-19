@@ -1,19 +1,29 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "./router/Home_"
-import Post from "./router/Post"
+import Home from "./router/Home"
+import Detail from "./router/RecipeDetail"
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useParams,
+  useNavigate
+} from "react-router-dom";
+import TopNavbar from "./Components/Navbar/TopNavbar"
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" exact element={<Home />} />
-          <Route path="/Post" element={<Post />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <Router>
+      <TopNavbar />
+      {/* routing destinations */}
+      <Routes>
+        <Route exact path="/" element={<Home />}/>
+        <Route path={'/detail/:detailId'} element={<Detail />}/>
+      </Routes>
+    </Router>
   );
 }
 
 export default App;
+
+
