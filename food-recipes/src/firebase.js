@@ -33,3 +33,4 @@ export async function getRecipes() {
   const recipes = recipesSnapshot.docs.map(doc => doc.data());
   return recipes
 }
+export default db;

@@ -5,7 +5,6 @@ function InputTextField() {
 
     return ( 
       <div> 
-        <form> 
           <div> 
           <TextField
             id="outlined-required"
@@ -16,7 +15,6 @@ function InputTextField() {
             fullWidth
           />
           </div>
-        </form> 
       </div> 
     ); 
   } 

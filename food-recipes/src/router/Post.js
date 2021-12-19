@@ -1,58 +1,12 @@
 import React, { useState } from 'react';
-import InputTextField from '../Components/InputTextField';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
 import styled from "styled-components";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from "swiper";
 import "swiper/swiper.min.css";
 import "swiper/components/navigation/navigation.min.css";
 import "swiper/components/pagination/pagination.min.css";
-import { Grid } from '@mui/material';
-import { doc, setDoc } from "firebase/firestore";
-
-const TitleDiv = styled.div`
-    position: absolute;
-    margin-top: 50px;
-    left: 50%;
-    transform: translate(-50%);
-`;
-
-const FileUpDiv = styled.div`
-    position: absolute;
-    margin-top: 200px;
-    left: 50%;
-    transform: translate(-50%);
-`;
-
-const InputDiv = styled.input`
-    position: absolute;
-    left: 100%;
-`;
-
-const IndiDiv = styled.div`
-    position: absolute;
-    margin-top: 1000px;
-    left: 50%;
-    transform: translate(-50%);
-    width: 1000px;
-`;
-
-const GriDiv = styled.div`
-    border: 1px solid black;
-    border-radius: 30px;
-    width: 1000px;
-    height: 270px;
-`;
-
-const StepDiv = styled.div`
-    position: absolute;
-    margin-top: 1400px;
-    left: 50%;
-    transform: translate(-50%);
-    width: 1000px;
-`;
 
 const StyledSwiper = styled(Swiper)`
     width: 752px;
@@ -60,12 +14,6 @@ const StyledSwiper = styled(Swiper)`
     text-align: center;
 `;
 
-const FinDiv = styled.div`
-    position: absolute;
-    margin-top: 1800px;
-    left: 80%;
-    margin-bottom: 10px;
-`;
 
 const Button = styled.button`
     padding: 10px 20px;
@@ -80,9 +28,12 @@ const Button = styled.button`
 SwiperCore.use([Navigation, Pagination])
 
 function Create () {
+    const [length, setLength] = useState(0);
+
+    const [title, setTitle] = useState("");
     const [detailImgs, setDetailImgs] = useState([]);
-    const [getLength, setGetLength] = useState(0);
-    const [getTitle, setGetTitle] = useState("");
+    const [gredients, setGredients] = useState([]);
+    const [recipes, setRecipes] = useState([]);
 
     //사진을 업로드 하고 생긴 url 배열로 detailImgs에 저장하고 배열의 크기를 getLength에 저장
     const handleImageUpload = (e) => {
@@ -93,7 +44,7 @@ function Create () {
         let file;
         let filesLength = fileArr.length > 10 ? 10 : fileArr.length;
         
-        setGetLength(e.target.files.length);
+        setLength(e.target.files.length);
 
         for (let i = 0; i < filesLength; i++) {
           file = fileArr[i];
@@ -110,7 +61,7 @@ function Create () {
 
     //제목 값을 받아오는 함수
     const handleTitle = (e) => {
-        setGetTitle(e.target.value);
+        setTitle(e.target.value);
     }
     //firebase에 저장
     /*const upLoadRef = doc(db, "post", getTitle);
@@ -119,160 +70,129 @@ function Create () {
 
     })*/
 
-    return (
-        <div>
-            <form name="blog_post" className="form-horizontal">
-                <div id="blog_post">
-                    <TitleDiv className='col-sm-2'>
-                        <Box 
-                            sx={{
-                                width: 1000,
-                                maxWidth: '100%',
-                            }}>
-                            <label className="col-sm-2 control label required" htmlFor="blog_post_title">제목</label>
-                            <TextField fullWidth onChange={handleTitle}/>
+    return (<Box 
+                sx={{
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignContent: "center",
+                    paddingLeft: 50,
+                    paddingRight: 50,
+                    paddingTop: 10
+                    }}
+            >
+                <Box 
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignContent: "center"
+                    }}
+                >
+                    <label className="col-sm-2 control label required" htmlFor="blog_post_title">제목</label>
+                    <TextField fullWidth onChange={handleTitle}/>
+                </Box>
+
+                { /* 파일 업로드 */}
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                    }}
+                >
+                    <input type="file" accept="image/*" onChange={handleImageUpload} multiple />
+                </Box>
+                <StyledSwiper
+                            className="Upload_Picture"
+                            spaceBetween={50}
+                            slidesPerView={1}
+                            navigation
+                            pagination={{clickable:true}}
+                    >
+                    { detailImgs.map((item, index) => (
+                        <SwiperSlide>
+                            <img src={item} />
+                        </SwiperSlide>
+                    )) }
+                </StyledSwiper>
+                
+                <h4>재료</h4>
+                <Box
+                    sx={{
+                     }}
+                >
+                    { gredients.concat([""]).map((item, index) => 
+                        <Box sx = {{
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            alignContent: "center"
+                        }}>
+                            <h4>{index + 1}</h4>
+                            <TextField
+                                id={item}
+                                variant="standard"
+                                fullWidth
+                                value={item}
+                                onChange= {(e) => {
+                                    const _gredient = e.target.value;
+
+                                    const _gredients = gredients.slice()
+                                    _gredients[index] = _gredient
+                                    setGredients(_gredients)
+                                }}
+                            />
                         </Box>
-                    </TitleDiv>
-                    <FileUpDiv className='col-sm-2'>
-                        <InputDiv type="file" accept="image/*" onChange={handleImageUpload} multiple />
-                        <div>
-                            <StyledSwiper
-                                className="Upload_Picture"
-                                spaceBetween={50}
-                                slidesPerView={1}
-                                navigation
-                                pagination={{clickable:true}}
-                            >
-                                {0 < getLength && <SwiperSlide>
-                                    <img src={detailImgs[0]} alt="profile" />
-                                </SwiperSlide>}
-                                {1 < getLength && <SwiperSlide>
-                                    <img src={detailImgs[1]} alt="profile" />
-                                </SwiperSlide>}
-                                {2 < getLength && <SwiperSlide>
-                                    <img src={detailImgs[2]} alt="profile" />
-                                </SwiperSlide>}
-                                {3 < getLength && <SwiperSlide>
-                                    <img src={detailImgs[3]} alt="profile" />
-                                </SwiperSlide>}
-                                {4 < getLength && <SwiperSlide>
-                                    <img src={detailImgs[4]} alt="profile" />
-                                </SwiperSlide>}
-                                {5 < getLength && <SwiperSlide>
-                                    <img src={detailImgs[5]} alt="profile" />
-                                </SwiperSlide>}
-                                {6 < getLength && <SwiperSlide>
-                                    <img src={detailImgs[6]} alt="profile" />
-                                </SwiperSlide>}
-                                {7 < getLength && <SwiperSlide>
-                                    <img src={detailImgs[7]} alt="profile" />
-                                </SwiperSlide>}
-                                {8 < getLength && <SwiperSlide>
-                                    <img src={detailImgs[8]} alt="profile" />
-                                </SwiperSlide>}
-                            </StyledSwiper>
-                        </div>
-                    </FileUpDiv>
-                    <IndiDiv>
-                        <label className="col-sm-2 control-label required" htmlFor="blog_post_ingredients">재료 Ingredients</label>
-                        <GriDiv>
-                            <Grid container spacing={2}>
-                                <Grid item xs={0.5} md={0.5}></Grid>
-                                <Grid item xs={0.5} md={0.5}>1.</Grid>
-                                <Grid item xs={5} md={5}>
-                                    <InputTextField />
-                                </Grid><Grid item xs={0.5} md={0.5}><Divider orientation="vertical"/></Grid><Grid item xs={5} md={5}>
-                                    <InputTextField />
-                                </Grid><Grid item xs={0.5} md={0.5}></Grid>
-                                <Grid item xs={0.5} md={0.5}></Grid>
-                                <Grid item xs={0.5} md={0.5}>2.</Grid>
-                                <Grid item xs={5} md={5}>
-                                    <InputTextField />
-                                </Grid><Grid item xs={0.5} md={0.5}><Divider orientation="vertical"/></Grid><Grid item xs={5} md={5}>
-                                    <InputTextField />
-                                </Grid><Grid item xs={0.5} md={0.5}></Grid>
-                                <Grid item xs={0.5} md={0.5}></Grid>
-                                <Grid item xs={0.5} md={0.5}>3.</Grid>
-                                <Grid item xs={5} md={5}>
-                                    <InputTextField />
-                                </Grid><Grid item xs={0.5} md={0.5}><Divider orientation="vertical"/></Grid><Grid item xs={5} md={5}>
-                                    <InputTextField />
-                                </Grid><Grid item xs={0.5} md={0.5}></Grid>
-                                <Grid item xs={0.5} md={0.5}></Grid>
-                                <Grid item xs={0.5} md={0.5}>4.</Grid>
-                                <Grid item xs={5} md={5}>
-                                    <InputTextField />
-                                </Grid><Grid item xs={0.5} md={0.5}><Divider orientation="vertical"/></Grid><Grid item xs={5} md={5}>
-                                    <InputTextField />
-                                </Grid><Grid item xs={0.5} md={0.5}></Grid>
-                                <Grid item xs={0.5} md={0.5}></Grid>
-                                <Grid item xs={0.5} md={0.5}>5</Grid>
-                                <Grid item xs={5} md={5}>
-                                    <InputTextField />
-                                </Grid><Grid item xs={0.5} md={0.5}><Divider orientation="vertical"/></Grid><Grid item xs={5} md={5}>
-                                    <InputTextField />
-                                </Grid><Grid item xs={0.5} md={0.5}></Grid>
-                            </Grid>
-                        </GriDiv>
-                    </IndiDiv>
-                    <StepDiv className='col-sm-2'>
-                        <label className="col-sm-2 control-label required" htmlFor="blog_post_steps">조리순서 steps</label>
-                        <GriDiv>
-                            <Grid container spacing={2}>
-                                <Grid item xs={0.5} md={0.5}></Grid>
-                                <Grid item xs={0.5} md={0.5}>1.</Grid>
-                                <Grid item xs={5} md={5}>
-                                    <InputTextField />
-                                </Grid><Grid item xs={0.5} md={0.5}><Divider orientation="vertical"/></Grid><Grid item xs={5} md={5}>
-                                    <InputTextField />
-                                </Grid><Grid item xs={0.5} md={0.5}></Grid>
-                                <Grid item xs={0.5} md={0.5}></Grid>
-                                <Grid item xs={0.5} md={0.5}>2.</Grid>
-                                <Grid item xs={5} md={5}>
-                                    <InputTextField />
-                                </Grid><Grid item xs={0.5} md={0.5}><Divider orientation="vertical"/></Grid><Grid item xs={5} md={5}>
-                                    <InputTextField />
-                                </Grid><Grid item xs={0.5} md={0.5}></Grid>
-                                <Grid item xs={0.5} md={0.5}></Grid>
-                                <Grid item xs={0.5} md={0.5}>3.</Grid>
-                                <Grid item xs={5} md={5}>
-                                    <InputTextField />
-                                </Grid><Grid item xs={0.5} md={0.5}><Divider orientation="vertical"/></Grid><Grid item xs={5} md={5}>
-                                    <InputTextField />
-                                </Grid><Grid item xs={0.5} md={0.5}></Grid>
-                                <Grid item xs={0.5} md={0.5}></Grid>
-                                <Grid item xs={0.5} md={0.5}>4.</Grid>
-                                <Grid item xs={5} md={5}>
-                                    <InputTextField />
-                                </Grid><Grid item xs={0.5} md={0.5}><Divider orientation="vertical"/></Grid><Grid item xs={5} md={5}>
-                                    <InputTextField />
-                                </Grid><Grid item xs={0.5} md={0.5}></Grid>
-                                <Grid item xs={0.5} md={0.5}></Grid>
-                                <Grid item xs={0.5} md={0.5}>5</Grid>
-                                <Grid item xs={5} md={5}>
-                                    <InputTextField />
-                                </Grid><Grid item xs={0.5} md={0.5}><Divider orientation="vertical"/></Grid><Grid item xs={5} md={5}>
-                                    <InputTextField />
-                                </Grid><Grid item xs={0.5} md={0.5}></Grid>
-                            </Grid>
-                        </GriDiv>
-                    </StepDiv>
-                    <FinDiv>
-                        <div className="form-group">
-                            <div className="col-sm-2"></div>
-                            <div className="col-sm-10">
-                                <Button type="submit"
-                                        id="blog_post_submit"
-                                        className="btn-default btn">
-                                    완료
-                                </Button>
-                            </div>
-                        </div>
-                    </FinDiv>
-                </div>
-            </form>
-        </div>
-    );
+                    )}
+                </Box>
+
+                <Box sx={{ paddingTop: 20}}/>
+
+                <h4>레시피</h4>
+                <Box
+                    sx={{
+                        
+                     }}
+                >
+                    { recipes.concat([""]).map((item, index) => 
+                        <Box sx = {{
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            alignContent: "center"
+                        }}>
+                            <h4>{index + 1}</h4>
+                            <TextField
+                                id={item}
+                                variant="standard"
+                                fullWidth
+                                value={item}
+                                onChange= {(e) => {
+                                    const _recipe = e.target.value;
+
+                                    const _recipes = recipes.slice()
+                                    _recipes[index] = _recipe
+                                    setRecipes(_recipes)
+                                }}
+                            />
+                        </Box>
+                    )}
+                </Box>
+                
+                { /* 작성 완료 */ }
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        paddingTop: 10
+                    }}
+                >
+                    <Button
+                        type="submit"
+                        id="blog_post_submit"
+                        className="btn-default btn">
+                        완료
+                    </Button>
+                </Box>
+            </Box>
+            );
 }
 
 
