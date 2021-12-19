@@ -14,7 +14,7 @@ export default function BasicStack(props) {
   return (
     <div>
       <Stack spacing={2}>
-        {props.Items.map((item) => (
+        {props.Items && props.Items.map((item) => (
                 <Item>{item}</Item>
             ))}
       </Stack>

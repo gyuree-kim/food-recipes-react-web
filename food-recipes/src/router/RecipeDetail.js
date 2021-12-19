@@ -1,82 +1,87 @@
 import React from "react";
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom";
-import {getPost} from "../firebase"
+import { getRecipes } from "../firebase"
 import PrimarySearchAppBar from "../Components/Navbar/TopNavbar";
 import StandardImageList  from "../Components/RecipeImage/RecipeImage"
 import { ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
 import { Link } from "react-router-dom"
 import BasicStack from "../Components/Stack"
+import BasicTextFields from "../Components/CommentTextBox"
 import "../App.css"
 
-
-
-export default function FoodDetail() {
+const FoodDetail = () => {
     // path에 " ":parameter " 로 선언되어있다면 useParams() hook으로 데려올 수 있습니다.
     // ex:) <Route path="/detail/:detailId ... />"
-    let { detailId } = useParams();
+    let {detailId} = useParams();
+    console.log(detailId);
 
     const [postId, setPostId] = useState("")
 
     useEffect(() => {
-      async function getPostId() {
-        const postList = await getPost();
-        //setPostId(postList[0].postId)
+        async function getPostId() {
+            const postList = await getRecipes();
 
-          var k;
-          for (var i = 0; i < postList.length; i++)
-              if (postList[i].postId == detailId)
-                  k = i
+            var k = 0;
+            for (var i = 0; i < postList.length; i++)
+                if (postList[i].postId == detailId)
+                {
+                    k = i;
+                }
 
-        setPostId(postList[k])
-      }
+            setPostId(postList[k])
+        }
 
-      getPostId();
+        getPostId();
 
-      return;
+        return;
     }, [setPostId])
-  
+
     return (
-        <div>
-            <ImageList sx={{ flexGrow: 1, paddingLeft: 60, paddingRight: 60 }} cols={1} gap={20}>
-                <DetailRecipeItem
-                    imageUrl={`${postId.fileUrl[0]}`}
-                />
-                <ImageListItemBar
-                sx={{color: "black"}}
-                title={postId.postName}
-                subtitle={postId.postContent}
-                position="below"
-                />
-            </ImageList>
+            <div>
+                <ImageList sx={{flexGrow: 1, paddingLeft: 55, paddingRight: 55}} cols={1} gap={20}>
+                    {postId && postId.postContent && postId.postContent.map((item, index) => (
+                        <DetailRecipeItem
+                            imageUrl={`${postId.fileUrl[index]}`}
+                            title = {postId.postName}
+                            contents={item}
+                        />
+                    ))}
+                </ImageList>
+                <h2>재료</h2>
 
-        <h2>재료</h2>
+                <BasicStack Items={postId.postIngredient}></BasicStack>
 
-        <BasicStack Items={postId.postIngredient}></BasicStack>
-            
-            <h2>조리순서</h2>
-            <ImageList sx={{ flexGrow: 1, paddingLeft: 60, paddingRight: 60 }} cols={1} gap={20}>
-                {postId.postRecipe.map((item, index) => (
-                <DetailRecipeItem
-                    imageUrl={`${postId.fileUrl[index+1]}`}
-                    contents={postId.postRecipe[index]}
-                />
-            ))}
-            </ImageList>
+                <h2>조리순서</h2>
+                <ImageList sx={{flexGrow: 1, paddingLeft: 50, paddingRight: 50}} cols={1} gap={20}>
+                    {postId && postId.postRecipe && postId.postRecipe.map((item, index) => (
+                        <DetailRecipeItem
+                            imageUrl={`${item.fileUrl[index + 1]}`}
+                            title = {postId.postName}
+                            contents={item.postRecipe[index]}
+                        />
+                    ))}
+                </ImageList>
+                <h2>댓글란</h2>
+                <BasicTextFields></BasicTextFields>
+                {postId && postId.comments.map((comments, index) => (
+                    <h5>{"익명"}{index + 1}{" : "}{comments}</h5>
+                ))}
+            </div>
+        )
+    }
 
-        </div>
-    )
-  }
-
-  const DetailRecipeItem = ({ imageUrl, contents }) => {
+  const DetailRecipeItem = ({ imageUrl, title, contents }) => {
     return (
         <ImageListItem>
             <img
                 src={imageUrl}
+                alt={title}
                 loading="lazy"
             />
             <ImageListItemBar
                 sx={{color: "black"}}
+                title={title}
                 subtitle={contents}
                 position="below"
             />
@@ -84,3 +89,6 @@ export default function FoodDetail() {
 
     )
 }
+
+
+  export default FoodDetail;

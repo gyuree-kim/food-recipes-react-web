@@ -35,8 +35,8 @@ export async function getRecipes() {
 }
 
 export async function getPost() {
-    const postId = collection(db, 'post');
-    const postSnapshot = await getDocs(postId);
-    const postList = postSnapshot.docs.map(doc => doc.data());
-    return postList;
+  const recipeCollection = collection(db, 'post');
+  const recipesSnapshot = await getDocs(recipeCollection);
+  const recipes = recipesSnapshot.docs.map(doc => doc.data());
+  return recipes
 }
