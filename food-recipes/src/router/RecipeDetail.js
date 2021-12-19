@@ -4,14 +4,10 @@ import { useParams } from "react-router-dom";
 import { getRecipes } from "../firebase"
 import PrimarySearchAppBar from "../Components/Navbar/TopNavbar";
 import StandardImageList  from "../Components/RecipeImage/RecipeImage"
-import { ImageList, ImageListItem, ImageListItemBar, Box, TextField, Button } from '@mui/material';
+import { ImageList, ImageListItem, ImageListItemBar, Box } from '@mui/material';
 import { Link } from "react-router-dom"
 import BasicStack from "../Components/Stack"
 import BasicTextFields from "../Components/CommentTextBox"
-import InputTextField from "../Components/InputTextField"
-import { getDatabase, ref, set } from "firebase/database";
-import { doc, updateDoc } from "firebase/firestore";
-import { submitComment } from '../firebase';
 import "../App.css"
 
 const FoodDetail = () => {
@@ -21,11 +17,6 @@ const FoodDetail = () => {
     console.log(detailId);
 
     const [postId, setPostId] = useState("")
-    const [comment, setComment] = useState("");
-
-    const onCommentChange = (event) => {
-        setComment(event.target.value);
-    };
 
     useEffect(() => {
         async function getPostId() {
@@ -75,18 +66,7 @@ const FoodDetail = () => {
                         />))
                     }
                 </ImageList>
-                <h2>댓글</h2>
-                <TextField
-                    id="outlined-textarea"
-                    label="댓글"
-                    placeholder="댓글을 입력해주세요."
-                    multiline
-                    onChange={onCommentChange}
-                />
-                <Button 
-                    variant="contained"
-                    // onClick={(submitComment(postId, comment))}
-                >등록</Button>
+                <h2>댓글란</h2>
                 <BasicTextFields></BasicTextFields>
                 {postId && postId.comments.map((comments, index) => (
                     <h5>{"익명"}{index + 1}{" : "}{comments}</h5>
