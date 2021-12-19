@@ -3,11 +3,6 @@ import TextField from '@mui/material/TextField';
 
 function InputTextField() {
 
-    /*const [ContentValue, setContentValue] = useState(""); 
-    const onContentChange = (event) => { 
-      setContentValue(event.currentTarget.value); 
-    };*/ 
-
     return ( 
       <div> 
         <form> 

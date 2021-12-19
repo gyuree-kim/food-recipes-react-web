@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import NaviBar from "../Components/Navbar/TopNavbar";
 import InputTextField from '../Components/InputTextField';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -11,6 +10,7 @@ import "swiper/swiper.min.css";
 import "swiper/components/navigation/navigation.min.css";
 import "swiper/components/pagination/pagination.min.css";
 import { Grid } from '@mui/material';
+import { doc, setDoc } from "firebase/firestore";
 
 const TitleDiv = styled.div`
     position: absolute;
@@ -27,7 +27,7 @@ const FileUpDiv = styled.div`
 `;
 
 const InputDiv = styled.input`
-position: absolute;
+    position: absolute;
     left: 100%;
 `;
 
@@ -71,9 +71,9 @@ const Button = styled.button`
     padding: 10px 20px;
     color: white;
     border: none;
-    background-color: #336655;
+    background-color: #007aff;
     :hover {
-        background-color: #3AC798;
+        background-color: #509EF3;
     }
 `;
 
@@ -82,7 +82,8 @@ SwiperCore.use([Navigation, Pagination])
 function Create () {
     const [detailImgs, setDetailImgs] = useState([]);
     const [getLength, setGetLength] = useState(0);
-    
+    const [getTitle, setGetTitle] = useState("");
+
     //사진을 업로드 하고 생긴 url 배열로 detailImgs에 저장하고 배열의 크기를 getLength에 저장
     const handleImageUpload = (e) => {
         const fileArr = e.target.files;
@@ -107,9 +108,19 @@ function Create () {
         }
     };
 
+    //제목 값을 받아오는 함수
+    const handleTitle = (e) => {
+        setGetTitle(e.target.value);
+    }
+    //firebase에 저장
+    /*const upLoadRef = doc(db, "post", getTitle);
+    await setDoc(upLoadRef, {
+        fileUrl: detailImgs,
+
+    })*/
+
     return (
         <div>
-            <div><NaviBar /></div>
             <form name="blog_post" className="form-horizontal">
                 <div id="blog_post">
                     <TitleDiv className='col-sm-2'>
@@ -119,7 +130,7 @@ function Create () {
                                 maxWidth: '100%',
                             }}>
                             <label className="col-sm-2 control label required" htmlFor="blog_post_title">제목</label>
-                            <TextField fullWidth />
+                            <TextField fullWidth onChange={handleTitle}/>
                         </Box>
                     </TitleDiv>
                     <FileUpDiv className='col-sm-2'>
